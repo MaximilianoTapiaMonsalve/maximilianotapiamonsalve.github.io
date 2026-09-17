@@ -1,0 +1,36 @@
+---
+import { ui } from '@/i18n/ui';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+// GitHub Pages sirve un único 404.html para todo el sitio, así que va en ambos idiomas.
+---
+
+<BaseLayout lang="en" title={ui.en['notFound.title']} noindex>
+  <section class="not-found">
+    <h1>{ui.en['notFound.title']}</h1>
+    <p>
+      <a href={getRelativeLocaleUrl('en')}>{ui.en['notFound.back']}</a>
+    </p>
+    <div lang="es">
+      <p class="title">{ui.es['notFound.title']}</p>
+      <p>
+        <a href={getRelativeLocaleUrl('es')}>{ui.es['notFound.back']}</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .not-found {
+    .section();
+  }
+
+  .title {
+    margin-top: var(--space-lg);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,18 @@
+// Breakpoints y mixins de Less. Se resuelven al compilar, así que no sirven
+// para valores que cambian con el tema (esos van en variables CSS).
+
+@mq-sm: ~'(min-width: 40rem)';
+@mq-md: ~'(min-width: 48rem)';
+@mq-lg: ~'(min-width: 64rem)';
+
+.container() {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+.section() {
+  .container();
+  padding-block: var(--space-xl);
+}

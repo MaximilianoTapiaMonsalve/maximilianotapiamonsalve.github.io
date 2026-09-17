@@ -1,0 +1,38 @@
+---
+import ContactForm from '@/components/ContactForm';
+import { formspreeFormId } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = getTranslations(Astro.props.lang);
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <h2 id="contact-title">{t('contact.title')}</h2>
+  <p>{t('contact.intro')}</p>
+  <ContactForm
+    client:visible
+    formId={formspreeFormId}
+    labels={{
+      name: t('contact.name'),
+      email: t('contact.email'),
+      message: t('contact.message'),
+      submit: t('contact.submit'),
+      sending: t('contact.sending'),
+      success: t('contact.success'),
+      error: t('contact.error'),
+    }}
+  />
+</section>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .contact {
+    .section();
+  }
+</style>

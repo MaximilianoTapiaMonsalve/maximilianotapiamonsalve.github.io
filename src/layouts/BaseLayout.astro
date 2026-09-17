@@ -1,0 +1,155 @@
+---
+import '@/styles/global.less';
+
+import LanguagePicker from '@/components/LanguagePicker.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+import { defaultLang, languages, type Lang } from '@/i18n/ui';
+import { getRouteWithoutLocale, getTranslations } from '@/i18n/utils';
+import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Para páginas que no deben indexarse ni tener versiones alternativas (p. ej. 404). */
+  noindex?: boolean;
+}
+
+const { lang, title, description, noindex = false } = Astro.props;
+const t = getTranslations(lang);
+
+const siteTitle = t('site.title');
+const pageTitle = title ? `${title} · ${siteTitle}` : siteTitle;
+const pageDescription = description ?? t('site.description');
+const route = noindex ? '' : getRouteWithoutLocale(Astro.url.pathname);
+const homeUrl = getRelativeLocaleUrl(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    {noindex ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <>
+        <link rel="canonical" href={getAbsoluteLocaleUrl(lang, route)} />
+        <meta property="og:url" content={getAbsoluteLocaleUrl(lang, route)} />
+        {(Object.keys(languages) as Lang[]).map((code) => (
+          <link
+            rel="alternate"
+            hreflang={code}
+            href={getAbsoluteLocaleUrl(code, route)}
+          />
+        ))}
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={getAbsoluteLocaleUrl(defaultLang, route)}
+        />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+      </>
+    )}
+    <script is:inline>
+      // Aplica el tema antes del primer pintado para evitar el parpadeo.
+      (() => {
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {
+          // Almacenamiento no disponible: se usa la preferencia del sistema.
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {t('nav.skip')}
+    </a>
+    <header class="site-header">
+      <a class="brand" href={homeUrl}>
+        {siteTitle}
+      </a>
+      <nav aria-label={t('nav.label')}>
+        <ul>
+          <li>
+            <a href={`${homeUrl}#projects`}>{t('nav.projects')}</a>
+          </li>
+          <li>
+            <a href={`${homeUrl}#contact`}>{t('nav.contact')}</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="actions">
+        <LanguagePicker lang={lang} route={route} />
+        <ThemeToggle lang={lang} />
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-on-accent);
+    background-color: var(--color-accent);
+    border-radius: var(--radius);
+
+    &:focus {
+      top: var(--space-md);
+    }
+  }
+
+  .site-header {
+    .container();
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-md);
+  }
+
+  .brand {
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  nav ul {
+    display: flex;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+  }
+</style>

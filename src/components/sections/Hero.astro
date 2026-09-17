@@ -1,0 +1,36 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = getTranslations(Astro.props.lang);
+---
+
+<section class="hero">
+  <h1>{t('hero.title')}</h1>
+  <p class="subtitle">{t('hero.subtitle')}</p>
+</section>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .hero {
+    .section();
+
+    h1 {
+      margin: 0 0 var(--space-md);
+      font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
+      line-height: 1.1;
+    }
+  }
+
+  .subtitle {
+    max-width: 40rem;
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+  }
+</style>
