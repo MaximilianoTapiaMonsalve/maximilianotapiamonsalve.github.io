@@ -3,8 +3,7 @@
  * src/i18n/ui.ts. Los campos vacíos no se muestran.
  */
 export const site = {
-  // TODO: reemplazar por tu nombre.
-  name: 'Your Name',
+  name: 'Maximiliano Jesús Tapia Monsalve',
   /** Correo visible en la página de contacto. */
   email: '',
   /** Ciudad o país, visible en el footer y en contacto. */
