@@ -18,7 +18,7 @@ const en = {
   'lang.label': 'Language',
   'theme.label': 'Dark',
   'hero.badge': 'Available for new projects',
-  'hero.title': 'A short headline about the work you do.',
+  'hero.title': 'Software engineer specializing in full stack development',
   'hero.lead':
     'Two or three sentences to introduce yourself: your role, what you build and how you like to work.',
   'hero.ctaWork': 'View projects',
@@ -74,7 +74,7 @@ const es: Record<keyof typeof en, string> = {
   'lang.label': 'Idioma',
   'theme.label': 'Oscuro',
   'hero.badge': 'Disponible para nuevos proyectos',
-  'hero.title': 'Un titular breve sobre el trabajo que haces.',
+  'hero.title': 'Ingeniero de software especializado en desarrollo full stack',
   'hero.lead':
     'Dos o tres frases para presentarte: tu rol, qué construyes y cómo te gusta trabajar.',
   'hero.ctaWork': 'Ver proyectos',
