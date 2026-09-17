@@ -1,0 +1,133 @@
+---
+import LanguagePicker from '@/components/site/LanguagePicker.astro';
+import ThemeToggle from '@/components/site/ThemeToggle.astro';
+import { site } from '@/config/site';
+import type { Lang, UiKey } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  lang: Lang;
+  /** Ruta actual sin prefijo de idioma, p. ej. "work/web". */
+  route: string;
+}
+
+const { lang, route } = Astro.props;
+const t = getTranslations(lang);
+
+const links: { path: string; label: UiKey }[] = [
+  { path: 'work', label: 'nav.work' },
+  { path: 'about', label: 'nav.about' },
+  { path: 'contact', label: 'nav.contact' },
+];
+
+// "page" en la página exacta y "true" en sus subpáginas (p. ej. /work/web/).
+function currentState(path: string) {
+  if (route === path) return 'page';
+  return route.startsWith(`${path}/`) ? 'true' : undefined;
+}
+---
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href={getRelativeLocaleUrl(lang)}>
+      {site.name}
+    </a>
+    <nav class="nav" aria-label={t('nav.label')}>
+      <ul>
+        {links.map(({ path, label }) => (
+          <li>
+            <a
+              href={getRelativeLocaleUrl(lang, path)}
+              aria-current={currentState(path)}
+            >
+              {t(label)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="controls">
+      <LanguagePicker lang={lang} route={route} />
+      <ThemeToggle lang={lang} />
+    </div>
+  </div>
+</header>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .site-header {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .inner {
+    .container();
+    display: grid;
+    grid-template-areas:
+      'brand controls'
+      'nav nav';
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-3) var(--space-6);
+    align-items: center;
+    padding-block: var(--space-5);
+
+    @media @mq-md {
+      grid-template-areas: 'brand nav controls';
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+  }
+
+  .brand {
+    grid-area: brand;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  .nav {
+    grid-area: nav;
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-6);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      @media @mq-md {
+        justify-content: flex-end;
+      }
+    }
+
+    a {
+      padding-bottom: 2px;
+      font-size: var(--text-ui);
+      color: var(--color-text-2);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-ink);
+      }
+
+      &[aria-current] {
+        color: var(--color-ink);
+        box-shadow: 0 1px 0 var(--color-accent);
+      }
+    }
+  }
+
+  .controls {
+    display: flex;
+    grid-area: controls;
+    gap: var(--space-4);
+    align-items: center;
+  }
+</style>

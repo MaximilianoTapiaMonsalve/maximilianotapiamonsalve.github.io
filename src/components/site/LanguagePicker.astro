@@ -23,7 +23,8 @@ const t = getTranslations(lang);
           lang={code}
           aria-current={code === lang ? 'page' : undefined}
         >
-          {languages[code]}
+          {code.toUpperCase()}
+          <span class="visually-hidden">{` ${languages[code]}`}</span>
         </a>
       </li>
     ))}
@@ -33,20 +34,27 @@ const t = getTranslations(lang);
 <style lang="less">
   .languages {
     display: flex;
-    gap: var(--space-sm);
+    gap: var(--space-3);
     margin: 0;
     padding: 0;
-    font-size: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    font-weight: 500;
     list-style: none;
   }
 
   a {
-    color: var(--color-text-muted);
+    padding-bottom: 2px;
+    color: var(--color-text-3);
     text-decoration: none;
 
-    &[aria-current='page'] {
-      font-weight: 600;
-      color: var(--color-text);
+    &:hover {
+      color: var(--color-ink);
+    }
+
+    &[aria-current] {
+      color: var(--color-ink);
+      box-shadow: 0 1px 0 var(--color-accent);
     }
   }
 </style>

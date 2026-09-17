@@ -1,0 +1,86 @@
+---
+import ContactForm from '@/components/ContactForm';
+import InfoPanel, { type InfoItem } from '@/components/ui/InfoPanel.astro';
+import { site } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+// Datos prácticos junto al formulario; solo se muestran los que están configurados.
+const info: InfoItem[] = [];
+if (site.email) {
+  info.push({
+    label: t('contact.direct'),
+    links: [{ label: site.email, href: `mailto:${site.email}` }],
+  });
+}
+if (site.location) {
+  info.push({ label: t('contact.location'), value: site.location });
+}
+if (site.timezone) {
+  info.push({ label: t('contact.timezone'), value: site.timezone });
+}
+if (site.socials.length > 0) {
+  info.push({
+    label: t('contact.elsewhere'),
+    links: site.socials.map(({ label, url }) => ({ label, href: url })),
+  });
+}
+---
+
+<BaseLayout lang={lang} title={t('contact.title')}>
+  <div class="contact">
+    <div class="main">
+      <h1>{t('contact.title')}</h1>
+      <p class="lead">{t('contact.intro')}</p>
+      <ContactForm
+        client:visible
+        formId={site.formspreeFormId}
+        labels={{
+          name: t('contact.name'),
+          email: t('contact.email'),
+          message: t('contact.message'),
+          submit: t('contact.submit'),
+          sending: t('contact.sending'),
+          success: t('contact.success'),
+          error: t('contact.error'),
+          helper: t('contact.helper'),
+        }}
+      />
+    </div>
+    {info.length > 0 && <InfoPanel items={info} />}
+  </div>
+</BaseLayout>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .contact {
+    .container();
+    display: grid;
+    gap: var(--space-9);
+    padding-top: var(--space-9);
+
+    @media @mq-lg {
+      grid-template-columns: minmax(0, 1fr) 15.625rem;
+      align-items: start;
+    }
+  }
+
+  h1 {
+    .type-title();
+  }
+
+  .lead {
+    .type-lead();
+    margin-block: var(--space-4) var(--space-7);
+    color: var(--color-text);
+  }
+</style>

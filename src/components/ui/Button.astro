@@ -1,0 +1,65 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'> & {
+  href: string;
+  /** `inverse` es para fondos oscuros, como el panel de llamada a la acción. */
+  variant?: 'primary' | 'secondary' | 'inverse';
+};
+
+const { variant = 'primary', class: className, ...attrs } = Astro.props;
+---
+
+<a class:list={['button', variant, className]} {...attrs}>
+  <slot />
+</a>
+
+<style lang="less">
+  .button {
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) 1.25rem;
+    font-size: var(--text-ui);
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    transition:
+      color var(--duration-fast) ease,
+      background-color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+
+  .primary {
+    color: var(--color-on-ink);
+    background-color: var(--color-ink);
+
+    &:hover {
+      color: var(--color-on-ink);
+      background-color: var(--color-accent);
+    }
+  }
+
+  .secondary {
+    color: var(--color-ink);
+    border-color: var(--color-line-strong);
+
+    &:hover {
+      color: var(--color-ink);
+      border-color: var(--color-ink);
+    }
+  }
+
+  .inverse {
+    color: var(--cta-bg);
+    background-color: var(--cta-text);
+
+    &:hover {
+      color: var(--cta-bg);
+      background-color: var(--cta-text-muted);
+    }
+  }
+</style>

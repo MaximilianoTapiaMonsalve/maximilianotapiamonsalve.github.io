@@ -1,0 +1,11 @@
+---
+import WorkPage from '@/components/pages/WorkPage.astro';
+import type { ProjectCategory } from '@/config/site';
+import { getWorkStaticPaths } from '@/lib/projects';
+
+export const getStaticPaths = () => getWorkStaticPaths('es');
+
+const category = Astro.params.category as ProjectCategory | undefined;
+---
+
+<WorkPage lang="es" category={category} />

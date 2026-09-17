@@ -1,0 +1,78 @@
+---
+import ScreenshotPlaceholder from '@/components/ui/ScreenshotPlaceholder.astro';
+import { getProjectUrl, type Project } from '@/lib/projects';
+import { Image } from 'astro:assets';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, description, year, stack, cover, coverAlt } = project.data;
+const url = getProjectUrl(project);
+const meta = [year, stack[0]].filter(Boolean).join(' · ');
+---
+
+<li class="card">
+  {cover ? (
+    <Image src={cover} alt={coverAlt ?? ''} width={1120} />
+  ) : (
+    <ScreenshotPlaceholder label={title} />
+  )}
+  <div class="heading">
+    <h2 class="title">{url ? <a href={url}>{title}</a> : title}</h2>
+    <p class="meta">{meta}</p>
+  </div>
+  <p class="description">{description}</p>
+</li>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .card {
+    display: grid;
+    align-content: start;
+
+    > :global(img) {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-md);
+    }
+  }
+
+  .heading {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 0.9375rem;
+  }
+
+  .title {
+    font-size: var(--text-card);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-accent);
+      }
+    }
+  }
+
+  .meta {
+    .type-meta();
+  }
+
+  .description {
+    .type-body();
+    margin-top: 0.4375rem;
+    font-size: 0.875rem;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  count: number;
+  current?: boolean;
+}
+
+const { href, label, count, current = false } = Astro.props;
+---
+
+<a class="pill" href={href} aria-current={current ? 'page' : undefined}>
+  {label} <span class="count">{count}</span>
+</a>
+
+<style lang="less">
+  .pill {
+    display: inline-flex;
+    gap: 0.375rem;
+    align-items: baseline;
+    padding: 0.4375rem 0.875rem;
+    font-size: var(--text-label);
+    line-height: 1.2;
+    color: var(--color-text-2);
+    text-decoration: none;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    transition:
+      color var(--duration-fast) ease,
+      background-color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+
+    &:hover {
+      color: var(--color-ink);
+      border-color: var(--color-ink);
+    }
+
+    &[aria-current] {
+      font-weight: 500;
+      color: var(--color-on-ink);
+      background-color: var(--color-ink);
+      border-color: var(--color-ink);
+    }
+  }
+
+  .count {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+  }
+</style>

@@ -1,11 +1,13 @@
 ---
 import '@/styles/global.less';
 
-import LanguagePicker from '@/components/LanguagePicker.astro';
-import ThemeToggle from '@/components/ThemeToggle.astro';
+import SiteFooter from '@/components/site/SiteFooter.astro';
+import SiteHeader from '@/components/site/SiteHeader.astro';
+import { site } from '@/config/site';
 import { defaultLang, languages, type Lang } from '@/i18n/ui';
 import { getRouteWithoutLocale, getTranslations } from '@/i18n/utils';
-import { getAbsoluteLocaleUrl, getRelativeLocaleUrl } from 'astro:i18n';
+import { Font } from 'astro:assets';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 
 interface Props {
   lang: Lang;
@@ -18,11 +20,11 @@ interface Props {
 const { lang, title, description, noindex = false } = Astro.props;
 const t = getTranslations(lang);
 
-const siteTitle = t('site.title');
-const pageTitle = title ? `${title} · ${siteTitle}` : siteTitle;
+const pageTitle = title
+  ? `${title} · ${site.name}`
+  : `${site.name} · ${t('site.title')}`;
 const pageDescription = description ?? t('site.description');
 const route = noindex ? '' : getRouteWithoutLocale(Astro.url.pathname);
-const homeUrl = getRelativeLocaleUrl(lang);
 ---
 
 <!doctype html>
@@ -38,6 +40,9 @@ const homeUrl = getRelativeLocaleUrl(lang);
     <meta property="og:description" content={pageDescription} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" />
     {noindex ? (
       <meta name="robots" content="noindex" />
     ) : (
@@ -81,75 +86,38 @@ const homeUrl = getRelativeLocaleUrl(lang);
     <a class="skip-link" href="#main">
       {t('nav.skip')}
     </a>
-    <header class="site-header">
-      <a class="brand" href={homeUrl}>
-        {siteTitle}
-      </a>
-      <nav aria-label={t('nav.label')}>
-        <ul>
-          <li>
-            <a href={`${homeUrl}#projects`}>{t('nav.projects')}</a>
-          </li>
-          <li>
-            <a href={`${homeUrl}#contact`}>{t('nav.contact')}</a>
-          </li>
-        </ul>
-      </nav>
-      <div class="actions">
-        <LanguagePicker lang={lang} route={route} />
-        <ThemeToggle lang={lang} />
-      </div>
-    </header>
+    <SiteHeader lang={lang} route={route} />
     <main id="main">
       <slot />
     </main>
+    <SiteFooter />
   </body>
 </html>
 
 <style lang="less">
-  @import (reference) '@/styles/mixins.less';
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  main {
+    flex: 1;
+  }
 
   .skip-link {
     position: absolute;
     top: -100%;
-    left: var(--space-md);
-    padding: var(--space-sm) var(--space-md);
-    color: var(--color-on-accent);
-    background-color: var(--color-accent);
-    border-radius: var(--radius);
+    left: var(--gutter);
+    z-index: 10;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-ui);
+    color: var(--color-on-ink);
+    background-color: var(--color-ink);
+    border-radius: var(--radius-sm);
 
     &:focus {
-      top: var(--space-md);
+      top: var(--space-4);
     }
-  }
-
-  .site-header {
-    .container();
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm) var(--space-lg);
-    align-items: center;
-    justify-content: space-between;
-    padding-block: var(--space-md);
-  }
-
-  .brand {
-    font-weight: 700;
-    color: var(--color-text);
-    text-decoration: none;
-  }
-
-  nav ul {
-    display: flex;
-    gap: var(--space-md);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .actions {
-    display: flex;
-    gap: var(--space-md);
-    align-items: center;
   }
 </style>

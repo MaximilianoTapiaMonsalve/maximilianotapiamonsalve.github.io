@@ -1,0 +1,108 @@
+---
+import ChipList from '@/components/ui/ChipList.astro';
+import ScreenshotPlaceholder from '@/components/ui/ScreenshotPlaceholder.astro';
+import Timeline from '@/components/ui/Timeline.astro';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const entry = await getEntry('about', lang);
+if (!entry) {
+  throw new Error(`Falta el archivo src/content/about/${lang}.md`);
+}
+const { Content } = await render(entry);
+const { title, portrait, portraitAlt, tools, timeline } = entry.data;
+---
+
+<BaseLayout lang={lang} title={title}>
+  <div class="about">
+    <div class="main">
+      <h1>{title}</h1>
+      <div class="prose">
+        <Content />
+      </div>
+      {timeline.length > 0 && (
+        <div class="timeline">
+          <Timeline title={t('about.timeline')} items={timeline} />
+        </div>
+      )}
+    </div>
+    <aside class="side">
+      {portrait ? (
+        <Image src={portrait} alt={portraitAlt ?? ''} width={680} />
+      ) : (
+        <ScreenshotPlaceholder label={t('about.portrait')} ratio="4 / 5" />
+      )}
+      {tools.length > 0 && (
+        <section aria-labelledby="tools-title">
+          <h2 id="tools-title">{t('about.tools')}</h2>
+          <ChipList items={tools} />
+        </section>
+      )}
+    </aside>
+  </div>
+</BaseLayout>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .about {
+    .container();
+    display: grid;
+    gap: var(--space-9);
+    padding-top: var(--space-9);
+
+    @media @mq-lg {
+      grid-template-columns: minmax(0, 1fr) 21.25rem;
+      gap: var(--space-10);
+      align-items: start;
+    }
+  }
+
+  h1 {
+    .type-title();
+  }
+
+  .prose {
+    .type-prose();
+    max-width: var(--measure);
+    margin-top: var(--space-6);
+    font-size: var(--text-lead);
+
+    :global(p + p) {
+      margin-top: 1.125rem;
+    }
+  }
+
+  .timeline {
+    margin-top: var(--space-8);
+  }
+
+  .side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+
+    > :global(img) {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-md);
+    }
+
+    h2 {
+      .type-eyebrow();
+      margin-bottom: 0.625rem;
+    }
+  }
+</style>

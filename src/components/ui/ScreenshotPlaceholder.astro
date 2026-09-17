@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** Texto de la leyenda (por ejemplo, el título del proyecto). */
+  label: string;
+  /** Relación de aspecto en CSS, p. ej. "16 / 10" o "4 / 5". */
+  ratio?: string;
+}
+
+const { label, ratio = '16 / 10' } = Astro.props;
+---
+
+<div class="placeholder" style={{ aspectRatio: ratio }} aria-hidden="true">
+  <span>{label}</span>
+</div>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .placeholder {
+    .type-meta();
+    display: grid;
+    place-items: center;
+    padding: var(--space-4);
+    text-align: center;
+    background: repeating-linear-gradient(
+      135deg,
+      var(--hatch-a) 0 7px,
+      var(--hatch-b) 7px 14px
+    );
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+export interface TimelineEntry {
+  period: string;
+  role: string;
+  place: string;
+  summary?: string;
+}
+
+interface Props {
+  title: string;
+  items: TimelineEntry[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<section class="timeline" aria-labelledby="timeline-title">
+  <h2 id="timeline-title">{title}</h2>
+  <ol>
+    {items.map(({ period, role, place, summary }) => (
+      <li>
+        <span class="period">{period}</span>
+        <div>
+          <p class="role">
+            {role} · {place}
+          </p>
+          {summary && <p class="summary">{summary}</p>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  h2 {
+    .type-eyebrow();
+    margin-bottom: var(--space-2);
+  }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-1) var(--space-5);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--color-line);
+
+    @media @mq-sm {
+      grid-template-columns: 8.125rem minmax(0, 1fr);
+    }
+  }
+
+  .period {
+    .type-meta();
+    font-size: var(--text-label);
+  }
+
+  .role {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .summary {
+    .type-body();
+    margin-top: 0.1875rem;
+    font-size: 0.875rem;
+  }
+</style>

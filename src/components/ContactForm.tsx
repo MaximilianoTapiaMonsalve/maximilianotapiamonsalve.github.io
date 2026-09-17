@@ -10,6 +10,7 @@ export interface ContactFormLabels {
   sending: string;
   success: string;
   error: string;
+  helper: string;
 }
 
 interface Props {
@@ -67,9 +68,12 @@ export default function ContactForm({ formId, labels }: Props) {
         </p>
       )}
 
-      <button type="submit" disabled={state.submitting}>
-        {state.submitting ? labels.sending : labels.submit}
-      </button>
+      <div className={styles.actions}>
+        <button type="submit" disabled={state.submitting}>
+          {state.submitting ? labels.sending : labels.submit}
+        </button>
+        <p className={styles.helper}>{labels.helper}</p>
+      </div>
     </form>
   );
 }

@@ -1,0 +1,34 @@
+---
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="chips">
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    .type-meta();
+    padding: 0.25rem 0.5625rem;
+    color: var(--color-text-2);
+    background-color: var(--color-chip);
+    border-radius: var(--radius-xs);
+  }
+</style>

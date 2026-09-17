@@ -1,0 +1,130 @@
+---
+import ProjectCard from '@/components/project/ProjectCard.astro';
+import FilterPill from '@/components/ui/FilterPill.astro';
+import type { ProjectCategory } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjects, getUsedCategories } from '@/lib/projects';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  lang: Lang;
+  /** Categoría activa. Sin categoría se muestran todos los proyectos. */
+  category?: ProjectCategory;
+}
+
+const { lang, category } = Astro.props;
+const t = getTranslations(lang);
+
+const projects = await getProjects(lang);
+const shown = category
+  ? projects.filter((project) => project.data.categories.includes(category))
+  : projects;
+
+// Los filtros son enlaces a páginas estáticas: /work/ y /work/<categoría>/.
+const filters = [
+  {
+    path: 'work',
+    label: t('work.all'),
+    count: projects.length,
+    current: !category,
+  },
+  ...getUsedCategories(projects).map((id) => ({
+    path: `work/${id}`,
+    label: t(`category.${id}`),
+    count: projects.filter((project) => project.data.categories.includes(id))
+      .length,
+    current: id === category,
+  })),
+];
+
+const pageTitle = category
+  ? `${t('work.title')}: ${t(`category.${category}`)}`
+  : t('work.title');
+---
+
+<BaseLayout lang={lang} title={pageTitle}>
+  <div class="work">
+    <div class="intro">
+      <h1>{t('work.title')}</h1>
+      <p class="lead">{t('work.intro')}</p>
+      {filters.length > 2 && (
+        <nav aria-label={t('work.filterLabel')}>
+          <ul class="filters">
+            {filters.map(({ path, label, count, current }) => (
+              <li>
+                <FilterPill
+                  href={getRelativeLocaleUrl(lang, path)}
+                  label={label}
+                  count={count}
+                  current={current}
+                />
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </div>
+    {shown.length > 0 ? (
+      <ul class="grid">
+        {shown.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </ul>
+    ) : (
+      <p class="empty">{t('projects.empty')}</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .work {
+    .container();
+    padding-top: var(--space-9);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    align-items: flex-start;
+    padding-bottom: var(--space-7);
+  }
+
+  h1 {
+    .type-title();
+  }
+
+  .lead {
+    .type-lead();
+    max-width: 52ch;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5625rem;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-7) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media @mq-md {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .empty {
+    .type-body();
+  }
+</style>

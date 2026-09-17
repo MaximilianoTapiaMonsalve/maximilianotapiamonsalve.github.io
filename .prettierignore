@@ -1,1 +1,3 @@
 pnpm-lock.yaml
+# Configuración local de Claude Code (no se versiona)
+.claude/settings.local.json

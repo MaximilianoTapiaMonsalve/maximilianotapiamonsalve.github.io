@@ -1,0 +1,47 @@
+---
+interface Props {
+  /** Id del título, para `aria-labelledby` en la sección. */
+  id: string;
+  title: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+const { id, title, href, linkLabel } = Astro.props;
+---
+
+<div class="section-header">
+  <h2 id={id}>{title}</h2>
+  {href && linkLabel && (
+    <a href={href}>
+      {linkLabel} <span aria-hidden="true">→</span>
+    </a>
+  )}
+</div>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: var(--space-5);
+  }
+
+  h2 {
+    .type-h2();
+  }
+
+  a {
+    font-size: var(--text-ui);
+    color: var(--color-text-3);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+</style>

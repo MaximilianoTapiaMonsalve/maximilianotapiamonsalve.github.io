@@ -1,4 +1,5 @@
 ---
+import Button from '@/components/ui/Button.astro';
 import { ui } from '@/i18n/ui';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
@@ -7,30 +8,87 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 ---
 
 <BaseLayout lang="en" title={ui.en['notFound.title']} noindex>
-  <section class="not-found">
-    <h1>{ui.en['notFound.title']}</h1>
-    <p>
-      <a href={getRelativeLocaleUrl('en')}>{ui.en['notFound.back']}</a>
+  <div class="not-found">
+    <p class="numeral" aria-hidden="true">
+      404
     </p>
-    <div lang="es">
-      <p class="title">{ui.es['notFound.title']}</p>
-      <p>
-        <a href={getRelativeLocaleUrl('es')}>{ui.es['notFound.back']}</a>
-      </p>
-    </div>
-  </section>
+    <section aria-labelledby="not-found-en">
+      <h1 id="not-found-en">{ui.en['notFound.title']}</h1>
+      <p class="text">{ui.en['notFound.text']}</p>
+      <div class="actions">
+        <Button href={getRelativeLocaleUrl('en', 'work')}>
+          {ui.en['notFound.work']}
+        </Button>
+        <Button href={getRelativeLocaleUrl('en')} variant="secondary">
+          {ui.en['notFound.home']}
+        </Button>
+      </div>
+    </section>
+    <section lang="es" class="alternate" aria-labelledby="not-found-es">
+      <h2 id="not-found-es">{ui.es['notFound.title']}</h2>
+      <p class="text">{ui.es['notFound.text']}</p>
+      <div class="actions">
+        <Button href={getRelativeLocaleUrl('es', 'work')}>
+          {ui.es['notFound.work']}
+        </Button>
+        <Button href={getRelativeLocaleUrl('es')} variant="secondary">
+          {ui.es['notFound.home']}
+        </Button>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
 
 <style lang="less">
   @import (reference) '@/styles/mixins.less';
 
   .not-found {
-    .section();
+    .container();
+    display: grid;
+    gap: var(--space-7);
+    padding-top: var(--space-9);
   }
 
-  .title {
-    margin-top: var(--space-lg);
-    font-size: 1.5rem;
-    font-weight: 700;
+  .numeral {
+    font-family: var(--font-display);
+    font-size: var(--text-numeral);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-accent);
+  }
+
+  h1,
+  h2 {
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 2.125rem;
+  }
+
+  h2 {
+    font-size: 1.625rem;
+  }
+
+  .text {
+    .type-body();
+    max-width: 40ch;
+    margin-top: 0.875rem;
+    font-size: 0.96875rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .alternate {
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--color-line);
   }
 </style>

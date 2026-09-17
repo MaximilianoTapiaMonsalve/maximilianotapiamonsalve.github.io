@@ -1,18 +1,95 @@
-// Breakpoints y mixins de Less. Se resuelven al compilar, así que no sirven
-// para valores que cambian con el tema (esos van en variables CSS).
+// Breakpoints, media queries y mixins de Less. Se resuelven al compilar, así que
+// no sirven para valores que cambian con el tema (esos son variables CSS en global.less).
 
 @mq-sm: ~'(min-width: 40rem)';
 @mq-md: ~'(min-width: 48rem)';
 @mq-lg: ~'(min-width: 64rem)';
+@hover-fine: ~'(hover: hover) and (pointer: fine)';
+@motion-ok: ~'(prefers-reduced-motion: no-preference)';
+
+// Layout
 
 .container() {
   width: 100%;
-  max-width: var(--content-width);
+  max-width: var(--page-max);
   margin-inline: auto;
-  padding-inline: var(--space-md);
+  padding-inline: var(--gutter);
 }
 
 .section() {
   .container();
-  padding-block: var(--space-xl);
+  padding-block: var(--space-10);
+}
+
+// Tipografía: un mixin por rol del sistema de diseño.
+
+.type-display() {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.type-title() {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.type-h2() {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.type-project() {
+  font-family: var(--font-display);
+  font-size: var(--text-project);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.type-lead() {
+  max-width: var(--measure-lead);
+  font-size: var(--text-lead);
+  line-height: 1.65;
+  color: var(--color-text-2);
+}
+
+.type-prose() {
+  font-size: var(--text-prose);
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.type-body() {
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--color-text-2);
+}
+
+.type-meta() {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+.type-eyebrow() {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }

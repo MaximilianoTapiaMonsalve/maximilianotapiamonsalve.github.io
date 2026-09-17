@@ -1,0 +1,64 @@
+---
+import { site } from '@/config/site';
+
+const year = new Date().getFullYear();
+// Una sola cadena: en Astro los saltos de línea entre expresiones no generan espacios.
+const credit = [`© ${year} ${site.name}`, site.location]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>{credit}</p>
+    {site.socials.length > 0 && (
+      <ul class="socials">
+        {site.socials.map(({ label, url }) => (
+          <li>
+            <a href={url} rel="me">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</footer>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .site-footer {
+    margin-top: var(--space-10);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .inner {
+    .container();
+    .type-meta();
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    justify-content: space-between;
+    padding-block: var(--space-6);
+    font-size: 0.75rem;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: var(--color-muted);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+</style>

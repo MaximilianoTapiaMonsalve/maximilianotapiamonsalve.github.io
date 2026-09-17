@@ -1,0 +1,171 @@
+---
+import ProjectRow from '@/components/project/ProjectRow.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Button from '@/components/ui/Button.astro';
+import ChipList from '@/components/ui/ChipList.astro';
+import CtaPanel from '@/components/ui/CtaPanel.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import { site } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProjects } from '@/lib/projects';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const featured = (await getProjects(lang))
+  .filter((project) => project.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const workUrl = getRelativeLocaleUrl(lang, 'work');
+---
+
+<BaseLayout lang={lang}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="intro">
+      {t('hero.badge') && <Badge>{t('hero.badge')}</Badge>}
+      <h1 id="hero-title">{t('hero.title')}</h1>
+      <p class="lead">{t('hero.lead')}</p>
+      <div class="actions">
+        <Button href={workUrl}>{t('hero.ctaWork')}</Button>
+        {site.resumeUrl ? (
+          <Button href={site.resumeUrl} variant="secondary">
+            {t('hero.ctaResume')}
+          </Button>
+        ) : (
+          <Button
+            href={getRelativeLocaleUrl(lang, 'about')}
+            variant="secondary"
+          >
+            {t('hero.ctaAbout')}
+          </Button>
+        )}
+      </div>
+    </div>
+    <aside class="now" aria-labelledby="now-title">
+      <h2 id="now-title">{t('hero.nowLabel')}</h2>
+      <p>{t('hero.nowText')}</p>
+      {site.stack.length > 0 && <ChipList items={site.stack} />}
+    </aside>
+  </section>
+
+  <section class="featured" aria-labelledby="featured-title">
+    <div class="inner">
+      <SectionHeader
+        id="featured-title"
+        title={t('work.featured')}
+        href={workUrl}
+        linkLabel={t('work.viewAll')}
+      />
+      {featured.length > 0 ? (
+        <ul class="rows">
+          {featured.map((project) => (
+            <ProjectRow project={project} />
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">{t('projects.empty')}</p>
+      )}
+    </div>
+  </section>
+
+  <div class="cta">
+    <CtaPanel
+      title={t('cta.title')}
+      text={t('cta.text')}
+      href={getRelativeLocaleUrl(lang, 'contact')}
+      buttonLabel={t('cta.button')}
+    />
+  </div>
+</BaseLayout>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .hero {
+    .container();
+    display: grid;
+    gap: var(--space-9);
+    padding-block: var(--space-10);
+
+    @media @mq-lg {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+      gap: var(--space-10);
+      align-items: end;
+      padding-block: var(--space-11) var(--space-10);
+    }
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  h1 {
+    .type-display();
+  }
+
+  .lead {
+    .type-lead();
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .now {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+
+    h2 {
+      .type-eyebrow();
+    }
+
+    p {
+      padding-bottom: var(--space-4);
+      font-size: var(--text-body);
+      line-height: 1.6;
+      color: var(--color-text);
+      border-bottom: 1px solid var(--color-line);
+    }
+  }
+
+  .featured {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .inner {
+    .container();
+    padding-top: var(--space-8);
+  }
+
+  .rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .empty {
+    .type-body();
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .cta {
+    .container();
+    padding-top: var(--space-9);
+  }
+</style>

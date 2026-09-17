@@ -1,0 +1,75 @@
+---
+export interface InfoItem {
+  label: string;
+  value?: string;
+  links?: { label: string; href: string }[];
+}
+
+interface Props {
+  items: InfoItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="info">
+  {items.map(({ label, value, links }) => (
+    <div>
+      <dt>{label}</dt>
+      {value && <dd>{value}</dd>}
+      {links && links.length > 0 && (
+        <dd>
+          <ul class="links">
+            {links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      )}
+    </div>
+  ))}
+</dl>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .info {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+    margin: 0;
+    padding: var(--space-5);
+    background-color: var(--color-bg-subtle);
+    border-radius: var(--radius-lg);
+  }
+
+  dt {
+    .type-eyebrow();
+    margin-bottom: 0.3125rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+  }
+
+  .links {
+    display: grid;
+    gap: 0.3125rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+</style>
