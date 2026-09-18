@@ -5,11 +5,11 @@
 export const site = {
   name: 'Maximiliano Jesús Tapia Monsalve',
   /** Correo visible en la página de contacto. */
-  email: '',
+  email: 'm.tapiamonsalve98@gmail.com',
   /** Ciudad o país, visible en el footer y en contacto. */
-  location: '',
+  location: 'Santiago de Chile',
   /** Zona horaria en texto libre, p. ej. "UTC−3". */
-  timezone: '',
+  timezone: 'UTC-3',
   /** Ruta a un CV dentro de /public, p. ej. "/cv.pdf". */
   resumeUrl: '',
   /** Tecnologías principales que se muestran en la portada. */
