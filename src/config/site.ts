@@ -10,8 +10,15 @@ export const site = {
   location: 'Santiago de Chile',
   /** Zona horaria en texto libre, p. ej. "UTC−3". */
   timezone: 'UTC-3',
-  /** Ruta a un CV dentro de /public, p. ej. "/cv.pdf". */
-  resumeUrl: '',
+  /**
+   * Variantes de CV según el enfoque, cada una con su PDF dentro de /public.
+   * Cada `id` necesita su texto `resume.<id>` en ui.ts. Array vacío = sin CV.
+   */
+  resumeVariants: [
+    { id: 'fullstack', url: '/resume/fullstack.pdf' },
+    { id: 'backend', url: '/resume/backend.pdf' },
+    { id: 'mobile', url: '/resume/mobile.pdf' },
+  ] as const,
   /** Tecnologías principales que se muestran en la portada. */
   stack: ['Go', 'TypeScript', 'Flutter', 'Docker'],
   socials: [

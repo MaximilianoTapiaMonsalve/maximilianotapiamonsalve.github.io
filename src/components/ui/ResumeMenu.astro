@@ -1,0 +1,95 @@
+---
+import { site } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<details class="resume-menu">
+  <summary class="button secondary">{t('hero.ctaResume')}</summary>
+  <ul class="menu">
+    {site.resumeVariants.map((variant) => (
+      <li>
+        <a href={variant.url} download>
+          {t(`resume.${variant.id}`)}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .resume-menu {
+    position: relative;
+  }
+
+  summary {
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) 1.25rem;
+    font-size: var(--text-ui);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-ink);
+    cursor: pointer;
+    list-style: none;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--duration-fast) ease;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      border-color: var(--color-ink);
+    }
+  }
+
+  .resume-menu[open] summary {
+    border-color: var(--color-ink);
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    min-width: 10rem;
+    margin: 0;
+    padding: var(--space-2);
+    list-style: none;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-float);
+  }
+
+  a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-ui);
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: var(--radius-xs);
+
+    @media @hover-fine {
+      &:hover {
+        color: var(--color-ink);
+        background-color: var(--color-chip);
+      }
+    }
+  }
+</style>

@@ -4,6 +4,7 @@ import Badge from '@/components/ui/Badge.astro';
 import Button from '@/components/ui/Button.astro';
 import ChipList from '@/components/ui/ChipList.astro';
 import CtaPanel from '@/components/ui/CtaPanel.astro';
+import ResumeMenu from '@/components/ui/ResumeMenu.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import { site } from '@/config/site';
 import type { Lang } from '@/i18n/ui';
@@ -34,10 +35,8 @@ const workUrl = getRelativeLocaleUrl(lang, 'work');
       <p class="lead">{t('hero.lead')}</p>
       <div class="actions">
         <Button href={workUrl}>{t('hero.ctaWork')}</Button>
-        {site.resumeUrl ? (
-          <Button href={site.resumeUrl} variant="secondary">
-            {t('hero.ctaResume')}
-          </Button>
+        {site.resumeVariants.length > 0 ? (
+          <ResumeMenu lang={lang} />
         ) : (
           <Button
             href={getRelativeLocaleUrl(lang, 'about')}
