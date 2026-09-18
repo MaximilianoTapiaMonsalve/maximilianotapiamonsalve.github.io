@@ -1,6 +1,26 @@
 ---
 title: Sobre mí
-tools: [TypeScript, React, Astro, Node.js, Git]
+tools:
+  [
+    Go,
+    TypeScript,
+    Python,
+    Dart,
+    JavaScript,
+    Swift,
+    Flutter,
+    Angular,
+    NestJS,
+    Node.js,
+    Next.js,
+    SwiftUI,
+    Docker,
+    Kubernetes,
+    MySQL,
+    PostgreSQL,
+    MongoDB,
+    Redis,
+  ]
 timeline:
   - period: 2024 — hoy
     role: Cargo actual

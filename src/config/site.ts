@@ -13,7 +13,7 @@ export const site = {
   /** Ruta a un CV dentro de /public, p. ej. "/cv.pdf". */
   resumeUrl: '',
   /** Tecnologías principales que se muestran en la portada. */
-  stack: ['TypeScript', 'React', 'Astro', 'Node.js'],
+  stack: ['Go', 'TypeScript', 'Flutter', 'Docker'],
   socials: [
     {
       label: 'GitHub',
