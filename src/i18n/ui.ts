@@ -20,7 +20,7 @@ const en = {
   'hero.badge': 'Available for new projects',
   'hero.title': 'Software engineer specializing in full stack development',
   'hero.lead':
-    'Two or three sentences to introduce yourself: your role, what you build and how you like to work.',
+    'Full stack developer building web and mobile solutions. I\'m driven by learning, adaptability, and optimizing development processes through modern practices and emerging technologies. I enjoy leading teams toward better solutions while also thriving independently with clear goals.',
   'hero.ctaWork': 'View projects',
   'hero.ctaResume': 'Download CV',
   'hero.ctaAbout': 'About me',
@@ -76,7 +76,7 @@ const es: Record<keyof typeof en, string> = {
   'hero.badge': 'Disponible para nuevos proyectos',
   'hero.title': 'Ingeniero de software especializado en desarrollo full stack',
   'hero.lead':
-    'Dos o tres frases para presentarte: tu rol, qué construyes y cómo te gusta trabajar.',
+    'Ingeniero full stack construyendo soluciones web y mobile. Me impulsa el aprendizaje, la adaptabilidad y la optimización de procesos de desarrollo mediante prácticas modernas y tecnologías emergentes. Disfruto liderando equipos hacia mejores soluciones mientras también prospero de forma independiente con objetivos claros.',
   'hero.ctaWork': 'Ver proyectos',
   'hero.ctaResume': 'Descargar CV',
   'hero.ctaAbout': 'Sobre mí',
