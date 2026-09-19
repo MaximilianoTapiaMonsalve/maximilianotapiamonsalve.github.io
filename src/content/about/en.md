@@ -32,6 +32,6 @@ timeline:
     summary: One sentence about what you achieved.
 ---
 
-A first paragraph introducing yourself in the first person: where you come from and how you started building software.
+I studied Computer Engineering at Universidad Andrés Bello in Chile. My passion for technology started as a kid, always curious about how things worked. That curiosity grew into a real interest in computing over the years, but it was during a university project that I discovered mobile development—a turning point that opened up countless possibilities for me.
 
-A second paragraph about the kind of work you enjoy, how you approach it and what you are looking for next.
+I love building products from scratch: thinking through an idea and turning it into reality throughout the entire process fits my working style perfectly, whether in a startup, as a freelancer, or in a corporate environment. I'm looking for hybrid roles, though I'm equally comfortable working fully remote, and I thrive in high-performing teams. My goal is to grow into a leadership role, running my own team to build new, innovative, high-quality products for a broad audience.
