@@ -11,7 +11,7 @@ const { title, description, year, stack, cover } = project.data;
 const url = getProjectUrl(project);
 ---
 
-<li class:list={['row', { linked: url }]}>
+<li class:list={['row', { linked: url }]} data-reveal>
   <span class="year">{year}</span>
   <div class="main">
     <h3 class="title">
@@ -37,6 +37,12 @@ const url = getProjectUrl(project);
     </div>
   )}
 </li>
+
+<script>
+  import { initScrollReveal } from '@/lib/scroll-reveal';
+
+  initScrollReveal('[data-reveal]');
+</script>
 
 <style lang="less">
   @import (reference) '@/styles/mixins.less';

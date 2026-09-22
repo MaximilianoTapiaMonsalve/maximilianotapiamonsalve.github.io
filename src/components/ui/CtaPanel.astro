@@ -11,7 +11,7 @@ interface Props {
 const { title, text, href, buttonLabel } = Astro.props;
 ---
 
-<section class="cta" aria-labelledby="cta-title">
+<section class="cta" aria-labelledby="cta-title" data-reveal>
   <div>
     <h2 id="cta-title">{title}</h2>
     <p>{text}</p>
@@ -20,6 +20,12 @@ const { title, text, href, buttonLabel } = Astro.props;
     {buttonLabel}
   </Button>
 </section>
+
+<script>
+  import { initScrollReveal } from '@/lib/scroll-reveal';
+
+  initScrollReveal('[data-reveal]');
+</script>
 
 <style lang="less">
   @import (reference) '@/styles/mixins.less';

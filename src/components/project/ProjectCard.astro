@@ -13,7 +13,7 @@ const url = getProjectUrl(project);
 const meta = [year, stack[0]].filter(Boolean).join(' · ');
 ---
 
-<li class="card">
+<li class="card" data-reveal>
   {cover ? (
     <Image src={cover} alt={coverAlt ?? ''} width={1120} />
   ) : (
@@ -25,6 +25,12 @@ const meta = [year, stack[0]].filter(Boolean).join(' · ');
   </div>
   <p class="description">{description}</p>
 </li>
+
+<script>
+  import { initScrollReveal } from '@/lib/scroll-reveal';
+
+  initScrollReveal('[data-reveal]');
+</script>
 
 <style lang="less">
   @import (reference) '@/styles/mixins.less';
