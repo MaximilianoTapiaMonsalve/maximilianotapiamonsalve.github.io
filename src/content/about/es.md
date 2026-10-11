@@ -22,14 +22,22 @@ tools:
     Redis,
   ]
 timeline:
-  - period: 2024 — hoy
-    role: Cargo actual
-    place: Empresa o proyecto
-    summary: Una frase sobre lo que haces allí.
-  - period: 2021 — 2024
-    role: Cargo anterior
-    place: Empresa o proyecto
-    summary: Una frase sobre lo que lograste.
+  - period: 2025 — actualidad
+    role: Ingeniero de Software
+    place: Dot Solutions
+    summary: Desarrollé un sistema centralizado y monitorizable de integraciones para flujos complejos de clientes, que redujo en un 70 % el tiempo de desarrollo de integraciones con sistemas externos.
+  - period: 2024 — 2025
+    role: Desarrollador Web Full Stack
+    place: Grupo Mil Sabores
+    summary: Desarrollé aplicaciones web administrativas como desarrollador full stack.
+  - period: '2024'
+    role: Desarrollador Mobile
+    place: Grupo Mil Sabores
+    summary: Desarrollé el módulo de catálogo de productos para una aplicación centralizadora de restaurantes en Flutter.
+  - period: 2022 — 2023
+    role: Desarrollador Mobile
+    place: Finmarkets y Credicorp
+    summary: Desarrollé aplicaciones móviles para el área financiera, enfocadas en visualización y transacción de acciones bursátiles.
 ---
 
 Estudié Ingeniería Civil Informática en la Universidad Andrés Bello, en Chile. Mi pasión por la tecnología comenzó desde niño, siempre curioso por entender cómo funcionaban las cosas. Esa curiosidad se transformó con los años en un verdadero interés por la informática, pero fue durante un proyecto universitario que descubrí el desarrollo mobile, un punto de inflexión que me abrió un mundo de posibilidades.
