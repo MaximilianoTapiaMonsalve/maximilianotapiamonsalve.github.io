@@ -5,15 +5,21 @@ import { Image } from 'astro:assets';
 
 interface Props {
   project: Project;
+  hidden?: boolean;
 }
 
-const { project } = Astro.props;
+const { project, hidden = false } = Astro.props;
 const { title, description, year, stack, cover, coverAlt } = project.data;
 const url = getProjectUrl(project);
 const meta = [year, stack[0]].filter(Boolean).join(' · ');
 ---
 
-<li class="card" data-reveal>
+<li
+  class="card"
+  data-reveal
+  data-categories={project.data.categories.join(' ')}
+  hidden={hidden}
+>
   {cover ? (
     <Image src={cover} alt={coverAlt ?? ''} width={1120} />
   ) : (
@@ -38,6 +44,10 @@ const meta = [year, stack[0]].filter(Boolean).join(' · ');
   .card {
     display: grid;
     align-content: start;
+
+    &[hidden] {
+      display: none;
+    }
 
     > :global(img) {
       width: 100%;

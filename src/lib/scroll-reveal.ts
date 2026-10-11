@@ -60,17 +60,21 @@ export async function initScrollReveal(
 
   gsap.set(elements, { opacity: 0, y });
 
+  // Sin `once`: un enlace profundo (/#about) deja elementos por encima del
+  // viewport ya superados; al volver a subir entran por onEnterBack y se revelan.
+  const reveal = (batch: Element[]) =>
+    gsap.to(batch, {
+      opacity: 1,
+      y: 0,
+      duration,
+      stagger,
+      ease: EASE,
+      overwrite: true,
+    });
+
   ScrollTrigger.batch(elements, {
     start,
-    once: true,
-    onEnter: (batch) =>
-      gsap.to(batch, {
-        opacity: 1,
-        y: 0,
-        duration,
-        stagger,
-        ease: EASE,
-        overwrite: true,
-      }),
+    onEnter: reveal,
+    onEnterBack: reveal,
   });
 }

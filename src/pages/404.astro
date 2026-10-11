@@ -16,7 +16,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
       <h1 id="not-found-en">{ui.en['notFound.title']}</h1>
       <p class="text">{ui.en['notFound.text']}</p>
       <div class="actions">
-        <Button href={getRelativeLocaleUrl('en', 'work')}>
+        <Button href={`${getRelativeLocaleUrl('en')}#work`}>
           {ui.en['notFound.work']}
         </Button>
         <Button href={getRelativeLocaleUrl('en')} variant="secondary">
@@ -28,7 +28,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
       <h2 id="not-found-es">{ui.es['notFound.title']}</h2>
       <p class="text">{ui.es['notFound.text']}</p>
       <div class="actions">
-        <Button href={getRelativeLocaleUrl('es', 'work')}>
+        <Button href={`${getRelativeLocaleUrl('es')}#work`}>
           {ui.es['notFound.work']}
         </Button>
         <Button href={getRelativeLocaleUrl('es')} variant="secondary">

@@ -15,32 +15,24 @@ interface Props {
 const { lang, route } = Astro.props;
 const t = getTranslations(lang);
 
-const links: { path: string; label: UiKey }[] = [
-  { path: 'work', label: 'nav.work' },
-  { path: 'about', label: 'nav.about' },
-  { path: 'contact', label: 'nav.contact' },
+const home = getRelativeLocaleUrl(lang);
+const links: { id: string; label: UiKey }[] = [
+  { id: 'work', label: 'nav.work' },
+  { id: 'about', label: 'nav.about' },
+  { id: 'contact', label: 'nav.contact' },
 ];
-
-// "page" en la página exacta y "true" en sus subpáginas (p. ej. /work/web/).
-function currentState(path: string) {
-  if (route === path) return 'page';
-  return route.startsWith(`${path}/`) ? 'true' : undefined;
-}
 ---
 
 <header class="site-header">
   <div class="inner">
-    <a class="brand" href={getRelativeLocaleUrl(lang)}>
+    <a class="brand" href={home}>
       {site.name}
     </a>
     <nav class="nav" aria-label={t('nav.label')}>
       <ul>
-        {links.map(({ path, label }) => (
+        {links.map(({ id, label }) => (
           <li>
-            <a
-              href={getRelativeLocaleUrl(lang, path)}
-              aria-current={currentState(path)}
-            >
+            <a href={`${home}#${id}`} data-section-link={id}>
               {t(label)}
             </a>
           </li>

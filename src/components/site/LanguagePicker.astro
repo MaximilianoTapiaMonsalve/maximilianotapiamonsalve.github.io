@@ -31,6 +31,20 @@ const t = getTranslations(lang);
   </ul>
 </nav>
 
+<script>
+  // Conserva la sección actual (#hash) al cambiar de idioma.
+  document
+    .querySelectorAll<HTMLAnchorElement>('a[hreflang]')
+    .forEach((link) => {
+      const base = link.getAttribute('href') ?? '';
+      const addHash = () => {
+        link.href = base + location.hash;
+      };
+      link.addEventListener('click', addHash);
+      link.addEventListener('auxclick', addHash);
+    });
+</script>
+
 <style lang="less">
   .languages {
     display: flex;

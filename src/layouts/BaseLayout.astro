@@ -94,6 +94,12 @@ const route = noindex ? '' : getRouteWithoutLocale(Astro.url.pathname);
   </body>
 </html>
 
+<script>
+  import { initScrollNav } from '@/lib/scroll-nav';
+
+  initScrollNav();
+</script>
+
 <style lang="less">
   body {
     display: flex;

@@ -1,0 +1,149 @@
+---
+import ProjectCard from '@/components/project/ProjectCard.astro';
+import FilterPill from '@/components/ui/FilterPill.astro';
+import type { ProjectCategory } from '@/config/site';
+import type { Lang } from '@/i18n/ui';
+import { getTranslations } from '@/i18n/utils';
+import { getProjects, getUsedCategories } from '@/lib/projects';
+
+interface Props {
+  lang: Lang;
+  /** Categoría preseleccionada al cargar. Sin categoría se muestran todos. */
+  category?: ProjectCategory;
+  /** Nivel del título: h1 en la página propia, h2 dentro de la landing. */
+  titleLevel?: 'h1' | 'h2';
+}
+
+const { lang, category, titleLevel = 'h2' } = Astro.props;
+const Title = titleLevel;
+const t = getTranslations(lang);
+
+const projects = await getProjects(lang);
+
+const filters = [
+  { value: '', label: t('work.all'), count: projects.length },
+  ...getUsedCategories(projects).map((id) => ({
+    value: id,
+    label: t(`category.${id}`),
+    count: projects.filter((project) => project.data.categories.includes(id))
+      .length,
+  })),
+];
+const initial = category ?? '';
+---
+
+<section
+  id="work"
+  class="work"
+  data-section
+  data-work
+  tabindex="-1"
+  aria-labelledby="work-title"
+>
+  <div class="intro">
+    <Title id="work-title" class="title">
+      {t('work.title')}
+    </Title>
+    <p class="lead">{t('work.intro')}</p>
+    {filters.length > 2 && (
+      <div class="filters" role="group" aria-label={t('work.filterLabel')}>
+        {filters.map(({ value, label, count }) => (
+          <FilterPill
+            value={value}
+            label={label}
+            count={count}
+            pressed={value === initial}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+  {projects.length > 0 ? (
+    <ul class="grid">
+      {projects.map((project) => (
+        <ProjectCard
+          project={project}
+          hidden={
+            initial !== '' &&
+            !project.data.categories.includes(initial as ProjectCategory)
+          }
+        />
+      ))}
+    </ul>
+  ) : (
+    <p class="empty">{t('projects.empty')}</p>
+  )}
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-work]').forEach((section) => {
+    const pills = section.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const cards = section.querySelectorAll<HTMLElement>('[data-categories]');
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const value = pill.dataset.filter ?? '';
+        pills.forEach((other) =>
+          other.setAttribute('aria-pressed', String(other === pill)),
+        );
+        cards.forEach((card) => {
+          const categories = (card.dataset.categories ?? '').split(' ');
+          card.hidden = value !== '' && !categories.includes(value);
+        });
+      });
+    });
+  });
+</script>
+
+<style lang="less">
+  @import (reference) '@/styles/mixins.less';
+
+  .work {
+    .container();
+    padding-top: var(--space-9);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    align-items: flex-start;
+    padding-bottom: var(--space-7);
+  }
+
+  .title {
+    .type-title();
+  }
+
+  .lead {
+    .type-lead();
+    max-width: 52ch;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5625rem;
+    margin-top: var(--space-3);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-7) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media @mq-md {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .empty {
+    .type-body();
+  }
+</style>
