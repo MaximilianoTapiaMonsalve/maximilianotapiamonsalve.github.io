@@ -8,7 +8,7 @@ export type Lang = keyof typeof languages;
 export const defaultLang: Lang = 'en';
 
 const en = {
-  'site.title': 'Portfolio',
+  'site.title': 'Informatic Engineer',
   'site.description': 'Personal portfolio: projects, experience and contact.',
   'nav.label': 'Main',
   'nav.work': 'Projects',
@@ -18,9 +18,9 @@ const en = {
   'lang.label': 'Language',
   'theme.label': 'Dark',
   'hero.badge': 'Available for new projects',
-  'hero.title': 'Software engineer specializing in full stack development',
+  'hero.title': 'Informatic engineer specializing in software engineering',
   'hero.lead':
-    "Full stack developer building web and mobile solutions. I'm driven by learning, adaptability, and optimizing development processes through modern practices and emerging technologies. I enjoy leading teams toward better solutions while also thriving independently with clear goals.",
+    "Software engineer building web and mobile solutions. I'm driven by learning, adaptability, and optimizing development processes through modern practices and emerging technologies. I enjoy leading teams toward better solutions while also thriving independently with clear goals.",
   'hero.ctaWork': 'View projects',
   'hero.ctaResume': 'Download CV',
   'hero.ctaAbout': 'About me',
@@ -67,7 +67,7 @@ const en = {
 
 // Mismas claves que `en`: TypeScript avisa si falta o sobra alguna.
 const es: Record<keyof typeof en, string> = {
-  'site.title': 'Portafolio',
+  'site.title': 'Ingeniero Civil Informático',
   'site.description': 'Portafolio personal: proyectos, experiencia y contacto.',
   'nav.label': 'Principal',
   'nav.work': 'Proyectos',
@@ -77,9 +77,10 @@ const es: Record<keyof typeof en, string> = {
   'lang.label': 'Idioma',
   'theme.label': 'Oscuro',
   'hero.badge': 'Disponible para nuevos proyectos',
-  'hero.title': 'Ingeniero de software especializado en desarrollo full stack',
+  'hero.title':
+    'Ingeniero civil informático especializado en ingeniería de software',
   'hero.lead':
-    'Ingeniero full stack construyendo soluciones web y mobile. Me impulsa el aprendizaje, la adaptabilidad y la optimización de procesos de desarrollo mediante prácticas modernas y tecnologías emergentes. Disfruto liderando equipos hacia mejores soluciones mientras también prospero de forma independiente con objetivos claros.',
+    'Ingeniero de software construyendo soluciones web y mobile. Me impulsa el aprendizaje, la adaptabilidad y la optimización de procesos de desarrollo mediante prácticas modernas y tecnologías emergentes. Disfruto liderando equipos hacia mejores soluciones mientras también prospero de forma independiente con objetivos claros.',
   'hero.ctaWork': 'Ver proyectos',
   'hero.ctaResume': 'Descargar CV',
   'hero.ctaAbout': 'Sobre mí',
